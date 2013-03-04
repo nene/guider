@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+# For running when gem not installed
+$:.unshift File.dirname(File.dirname(__FILE__)) + "/lib"
+
+require "rubygems"
+require "optparse"
+require "fileutils"
+require "guider/guide"
+
+options = {
+  :output => Dir.pwd + "/out",
+}
+
+input_files = OptionParser.new do |opts|
+  opts.banner = "Generates a guide.\n\n" +
+    "Usage: guider <markdown-file> -o <output-dir>\n\n"
+
+  opts.on("-o", "--output=DIR", "Where to output the guides.") do |dir|
+    options[:output] = dir
+  end
+
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+guide = Guider::Guide.new(input_files[0])
+
+# clean output dir
+FileUtils.rm_rf(options[:output])
+FileUtils.mkdir(options[:output])
+
+guide.write(options[:output])
+
