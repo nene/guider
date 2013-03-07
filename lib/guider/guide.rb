@@ -1,4 +1,5 @@
 require "rdiscount"
+require "fileutils"
 
 module Guider
   class Guide
@@ -9,7 +10,9 @@ module Guider
 
     def write(path)
       html = RDiscount.new(@markdown).to_html
-      File.open(path+"/#{@cfg[:name]}.html", 'w') {|f| f.write(html) }
+      guide_path = path + "/" + @cfg[:name]
+      FileUtils.mkdir(guide_path)
+      File.open(guide_path+"/index.html", 'w') {|f| f.write(html) }
     end
   end
 end
