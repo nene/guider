@@ -7,6 +7,7 @@ require "rubygems"
 require "optparse"
 require "fileutils"
 require "guider/guide"
+require "guider/config"
 
 options = {
   :output => Dir.pwd + "/out",
@@ -14,7 +15,7 @@ options = {
 
 input_files = OptionParser.new do |opts|
   opts.banner = "Generates a guide.\n\n" +
-    "Usage: guider <markdown-file> -o <output-dir>\n\n"
+    "Usage: guider <guides.json>\n\n"
 
   opts.on("-o", "--output=DIR", "Where to output the guides.") do |dir|
     options[:output] = dir
@@ -26,11 +27,19 @@ input_files = OptionParser.new do |opts|
   end
 end.parse!
 
-guide = Guider::Guide.new(input_files[0])
 
 # clean output dir
 FileUtils.rm_rf(options[:output])
 FileUtils.mkdir(options[:output])
 
-guide.write(options[:output])
+Guider::Config.new(input_files[0]).each_guide do |guide|
+  if File.exists?(guide[:path])
+    guide = Guider::Guide.new(guide)
+    guide.write(options[:output])
+  end
+end
+
+
+
+
 
