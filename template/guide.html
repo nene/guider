@@ -5,6 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="shortcut icon" type="image/ico" href="../favicon.ico" />
   <link rel="stylesheet" type="text/css" href="../styles.css" />
+  <link rel="stylesheet" type="text/css" href="../prettify.css" />
+  <script type="text/javascript" src="../prettify.js"></script>
 </head>
 <body>
 
@@ -14,6 +16,17 @@
 (function(){
   var protocol = (document.location.protocol === "https:") ? "https:" : "http:";
   document.write("<link href='"+protocol+"//fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css' />");
+})();
+</script>
+
+<script type="text/javascript">
+(function(){
+  var pres = document.getElementsByTagName("pre");
+  for (var len=pres.length, i=0; i < len; i++) {
+    var code = pres[i].getElementsByTagName("code")[0];
+    if (code) code.className = "prettyprint";
+  }
+  prettyPrint();
 })();
 </script>
 

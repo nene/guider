@@ -37,6 +37,8 @@ FileUtils.mkdir(options[:output])
 tpl_dir = File.dirname(File.dirname(__FILE__)) + "/template"
 FileUtils.cp(tpl_dir+"/favicon.ico", options[:output])
 FileUtils.cp(tpl_dir+"/styles.css", options[:output])
+FileUtils.cp(tpl_dir+"/prettify.css", options[:output])
+FileUtils.cp(tpl_dir+"/prettify.js", options[:output])
 
 # Read the template HTML file
 tpl = Guider::Template.new(tpl_dir + "/guide.html")
