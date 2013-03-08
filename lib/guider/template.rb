@@ -11,8 +11,8 @@ module Guider
     # Sets the values for placeholders inside template.
     # Returns the template text with placeholders replaced.
     def apply(hash)
-      @template.gsub(/\{[^\}]+\}/) do |placeholder|
-        placeholder =~ /^\{(.*)\}$/
+      @template.gsub(/\{\w+\}/) do |placeholder|
+        placeholder =~ /\{(.*)\}/
         hash[$1.to_sym]
       end
     end

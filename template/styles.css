@@ -1,1 +1,35 @@
-h1 {color: green}
+body {
+    -webkit-font-smoothing: antialiased;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", "Lucida Grande", sans-serif;
+    line-height: 1.231;
+    color: #484848;
+    background: #f8f8f8;
+    max-width: 900px;
+}
+
+h1 {
+    font-family: "Exo", sans-serif;
+    color: #66ab16;
+}
+
+a:link {
+    color: #083772;
+    text-decoration: none;
+}
+a:hover {
+    color: #0464BB;
+}
+
+
+pre {
+    font-family: "Menlo", "Courier New", "Courier", monospace;
+    background-color: #f7f7f7;
+    border: solid 1px #e8e8e8;
+    border-radius: 5px;
+    color: #314e64;
+    padding: 10px 12px;
+    margin: 10px 0 14px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
