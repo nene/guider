@@ -5,6 +5,7 @@ body {
     color: #484848;
     background: #f8f8f8;
     max-width: 900px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -33,3 +34,7 @@ pre {
     overflow-y: hidden;
 }
 
+img {
+    display: block;
+    margin: 0 auto;
+}
