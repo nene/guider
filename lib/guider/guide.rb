@@ -1,4 +1,4 @@
-require "rdiscount"
+require "kramdown"
 require "fileutils"
 require "guider/inline_tags"
 
@@ -18,7 +18,7 @@ module Guider
     end
 
     def write_html(filename)
-      html = RDiscount.new(@markdown).to_html
+      html = Kramdown::Document.new(@markdown).to_html
       html = InlineTags.replace(html)
       html = @template.apply(:content => html, :title => get_title)
       File.open(filename, 'w') {|f| f.write(html) }
