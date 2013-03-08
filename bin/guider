@@ -33,8 +33,13 @@ end.parse!
 FileUtils.rm_rf(options[:output])
 FileUtils.mkdir(options[:output])
 
-# Read the template
-tpl = Guider::Template.new(File.dirname(File.dirname(__FILE__))+"/template/guide.html")
+# copy over main template resources
+tpl_dir = File.dirname(File.dirname(__FILE__)) + "/template"
+FileUtils.cp(tpl_dir+"/favicon.ico", options[:output])
+FileUtils.cp(tpl_dir+"/styles.css", options[:output])
+
+# Read the template HTML file
+tpl = Guider::Template.new(tpl_dir + "/guide.html")
 
 Guider::Config.new(input_files[0]).each_guide do |guide|
   if File.exists?(guide[:path])
