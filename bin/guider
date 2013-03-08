@@ -43,11 +43,11 @@ FileUtils.cp(tpl_dir+"/prettify.js", options[:output])
 # Read the template HTML file
 tpl = Guider::Template.new(tpl_dir + "/guide.html")
 
-Guider::Config.new(input_files[0]).each_guide do |guide|
-  if File.exists?(guide[:path])
-    guide = Guider::Guide.new(guide, tpl)
-    guide.write(options[:output])
-  end
+# The guides.json file
+config_file = input_files[0]
+
+Guider::Config.new(config_file, tpl).guides.each do |guide|
+  guide.write(options[:output])
 end
 
 

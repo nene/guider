@@ -1,24 +1,29 @@
 require "json"
+require "guider/guide"
 
 module Guider
-  # Reads the guides config file
+  # Reads the guides config file.
+  # Turns it into list Guide instances accessible through .guides attribute.
   class Config
-    def initialize(path)
-      @groups = JSON.parse(IO.read(path))
-
-      # add :path fields to the configs of all the guides
-      base_path = File.dirname(path)
-      each_guide do |guide|
-        keys_to_symbols(guide)
-        guide[:path] = base_path + "/guides/" + guide[:name]
-      end
+    def initialize(path, tpl)
+      guide_cfgs = flatten(JSON.parse(IO.read(path)))
+      guide_cfgs.each {|g| keys_to_symbols(g) }
+      guide_cfgs.each {|g| add_path(g, path) }
+      @guides = to_guides(guide_cfgs, tpl)
     end
 
-    # Invokes given block with the config of each guide
-    def each_guide
-      @groups.each do |group|
-        group["items"].each {|guide| yield guide }
+    # List of Guide instances.
+    attr_reader :guides
+
+    private
+
+    # Turns grouped guides structure into flat list.
+    def flatten(groups)
+      arr = []
+      groups.each do |group|
+        group["items"].each {|guide| arr << guide }
       end
+      arr
     end
 
     # Turns all string keys in Hash into symbols
@@ -27,6 +32,18 @@ module Guider
         hash[k.to_sym] = hash[k]
         hash.delete(k)
       end
+      hash
     end
+
+    # adds :path fields to the configs of all the guides
+    def add_path(guide, path)
+      guide[:path] = File.dirname(path) + "/guides/" + guide[:name]
+    end
+
+    # Turns guide configs to actual Guide instances
+    def to_guides(guide_cfgs, tpl)
+      guide_cfgs.find_all {|g| File.exists?(g[:path]) }.map {|g| Guide.new(g, tpl) }
+    end
+
   end
 end
