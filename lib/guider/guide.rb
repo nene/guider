@@ -4,8 +4,9 @@ require "guider/inline_tags"
 
 module Guider
   class Guide
-    def initialize(cfg)
+    def initialize(cfg, tpl)
       @cfg = cfg
+      @template = tpl
       @markdown = IO.read(@cfg[:path]+"/README.md")
     end
 
@@ -19,7 +20,14 @@ module Guider
     def write_html(filename)
       html = RDiscount.new(@markdown).to_html
       html = InlineTags.replace(html)
+      html = @template.apply(:content => html, :title => get_title)
       File.open(filename, 'w') {|f| f.write(html) }
+    end
+
+    # Extracts the first line from markdown
+    def get_title
+      @markdown =~ /\A(.*?)$/
+      $1.sub(/^#/, '').strip
     end
 
     def copy_images(src, dest)

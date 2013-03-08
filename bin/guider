@@ -8,6 +8,7 @@ require "optparse"
 require "fileutils"
 require "guider/guide"
 require "guider/config"
+require "guider/template"
 
 options = {
   :output => Dir.pwd + "/out",
@@ -32,9 +33,12 @@ end.parse!
 FileUtils.rm_rf(options[:output])
 FileUtils.mkdir(options[:output])
 
+# Read the template
+tpl = Guider::Template.new(File.dirname(File.dirname(__FILE__))+"/template/guide.html")
+
 Guider::Config.new(input_files[0]).each_guide do |guide|
   if File.exists?(guide[:path])
-    guide = Guider::Guide.new(guide)
+    guide = Guider::Guide.new(guide, tpl)
     guide.write(options[:output])
   end
 end
