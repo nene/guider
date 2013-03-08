@@ -10,11 +10,24 @@ module Guider
     end
 
     def write(path)
-      html = RDiscount.new(@markdown).to_html
-      html = InlineTags.replace(html)
       guide_path = path + "/" + @cfg[:name]
       FileUtils.mkdir(guide_path)
-      File.open(guide_path+"/index.html", 'w') {|f| f.write(html) }
+      write_html(guide_path+"/index.html")
+      copy_images(@cfg[:path], guide_path)
+    end
+
+    def write_html(filename)
+      html = RDiscount.new(@markdown).to_html
+      html = InlineTags.replace(html)
+      File.open(filename, 'w') {|f| f.write(html) }
+    end
+
+    def copy_images(src, dest)
+      Dir[src+"/**/*.{png,jpg,jpeg,gif}"].each do |img|
+        if !["icon.png", "icon-lg.png"].include?(File.basename(img))
+          FileUtils.cp(img, dest+"/"+File.basename(img))
+        end
+      end
     end
   end
 end
