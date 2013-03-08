@@ -9,6 +9,7 @@ require "fileutils"
 require "guider/guide"
 require "guider/config"
 require "guider/template"
+require "guider/index"
 
 options = {
   :output => Dir.pwd + "/out",
@@ -46,10 +47,19 @@ tpl = Guider::Template.new(tpl_dir + "/guide.html")
 # The guides.json file
 config_file = input_files[0]
 
-Guider::Config.new(config_file, tpl).guides.each do |guide|
+guides = Guider::Config.new(config_file, tpl).guides
+
+guides.each do |guide|
   guide.write(options[:output])
 end
 
+index_tpl = Guider::Template.new(tpl_dir + "/index.html")
+Guider::Index.new(guides, index_tpl).write(options[:output])
+
+html = index_tpl.apply({
+  :title => "Guides",
+  :content => "blah",
+})
 
 
 

@@ -20,14 +20,19 @@ module Guider
     def write_html(filename)
       html = Kramdown::Document.new(@markdown).to_html
       html = InlineTags.replace(html)
-      html = @template.apply(:content => html, :title => get_title)
+      html = @template.apply(:content => html, :title => title)
       File.open(filename, 'w') {|f| f.write(html) }
     end
 
     # Extracts the first line from markdown
-    def get_title
+    def title
       @markdown =~ /\A(.*?)$/
       $1.sub(/^#/, '').strip
+    end
+
+    # Returns the name of a guide, for use in links
+    def name
+      @cfg[:name]
     end
 
     def copy_images(src, dest)
