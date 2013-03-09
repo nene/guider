@@ -8,6 +8,7 @@ module Guider
       @cfg = cfg
       @template = tpl
       @markdown = IO.read(@cfg[:path]+"/README.md")
+      @html = Kramdown::Document.new(@markdown).to_html
     end
 
     def write(path)
@@ -18,8 +19,7 @@ module Guider
     end
 
     def write_html(filename)
-      html = Kramdown::Document.new(@markdown).to_html
-      html = InlineTags.replace(html)
+      html = InlineTags.replace(@html)
       html = @template.apply(:content => html, :title => title)
       File.open(filename, 'w') {|f| f.write(html) }
     end
@@ -33,6 +33,13 @@ module Guider
     # Returns the name of a guide, for use in links
     def name
       @cfg[:name]
+    end
+
+    # Lists all h2 level headings within the guide
+    def chapters
+      @html.scan(/<h2[^>]*id="(\S*)"[^>]*>([^\n]*)<\/h2>/).map do |m|
+        {:href => @cfg[:name] + "#" + m[0], :title => m[1]}
+      end
     end
 
     def copy_images(src, dest)

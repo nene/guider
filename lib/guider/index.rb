@@ -17,10 +17,14 @@ module Guider
     private
 
     def guide_list
-      list = @guides.map do |g|
-        "<li><a href='#{g.name}'>#{g.title}</a></li>"
-      end.join("\n")
+      list = @guides.map {|g| "<li><a href='#{g.name}'>#{g.title}</a>#{chapters_list(g.chapters)}</li>" }.join("\n")
       "<ul>#{list}</ul>"
+    end
+
+    def chapters_list(chapters)
+      return "" if chapters.length == 0
+
+      "\n<ul>" + chapters.map {|c| "<li><a href='#{c[:href]}'>#{c[:title]}</a></li>" }.join("\n") + "</ul>\n"
     end
 
   end
