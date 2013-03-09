@@ -38,3 +38,11 @@ img {
     display: block;
     margin: 0 auto;
 }
+
+
+/* Special styles for guides list in index page */
+
+body#index-page > ul > li {margin-bottom: 0.5em;}
+body#index-page > ul > li > ul {margin: 0.5em 0; font-size: smaller;}
+body#index-page > ul > li > a:link {font-weight: bold; }
+
