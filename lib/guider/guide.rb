@@ -27,7 +27,14 @@ module Guider
     # Extracts the first line from markdown
     def title
       @markdown =~ /\A(.*?)$/
-      $1.sub(/^#/, '').strip
+      result = $1.sub(/^#/, '').strip
+
+      # When guide name missing, take it from config file
+      if result == ""
+        @cfg[:title]
+      else
+        result
+      end
     end
 
     # Returns the name of a guide, for use in links
