@@ -49,10 +49,12 @@ module Guider
       end
     end
 
+    # Copies all files and directories in source dir over to
+    # destination dir.  Skips README.md, which is treated separately.
     def copy_images(src, dest)
-      Dir[src+"/**/*.{png,jpg,jpeg,gif}"].each do |img|
-        if !["icon.png", "icon-lg.png"].include?(File.basename(img))
-          FileUtils.cp(img, dest+"/"+File.basename(img))
+      Dir[src+"/*"].each do |img|
+        if !["README.md"].include?(File.basename(img))
+          FileUtils.cp_r(img, dest+"/"+File.basename(img))
         end
       end
     end
