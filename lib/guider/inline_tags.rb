@@ -1,5 +1,12 @@
 module Guider
   class InlineTags
+    # The base URL for links created by {@link} tags.
+    attr_accessor :link_url
+
+    def initialize
+      @link_url = ""
+    end
+
     def replace(html)
       replace_link!(html)
       replace_img!(html)
@@ -22,7 +29,7 @@ module Guider
           apiref = cls
         end
 
-        url = "http://docs.sencha.com/ext-js/4-1/#!/api/" + apiref
+        url = @link_url + "#!/api/" + apiref
         "<a href='#{url}'>#{alt || ref}</a>"
       end
     end

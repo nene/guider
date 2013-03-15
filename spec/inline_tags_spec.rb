@@ -7,7 +7,7 @@ describe Guider::InlineTags do
   end
 
   it "replaces @link to class" do
-    replace("{@link Foo Bar}").should == "<a href='http://docs.sencha.com/ext-js/4-1/#!/api/Foo'>Bar</a>"
+    replace("{@link Foo Bar}").should == "<a href='#!/api/Foo'>Bar</a>"
   end
 
 end

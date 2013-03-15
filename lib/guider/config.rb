@@ -5,11 +5,11 @@ module Guider
   # Reads the guides config file.
   # Turns it into list Guide instances accessible through .guides attribute.
   class Config
-    def initialize(path, tpl)
+    def initialize(path, tpl, inline_tags)
       guide_cfgs = flatten(JSON.parse(IO.read(path)))
       guide_cfgs.each {|g| keys_to_symbols(g) }
       guide_cfgs.each {|g| add_path(g, path) }
-      @guides = to_guides(guide_cfgs, tpl)
+      @guides = to_guides(guide_cfgs, tpl, inline_tags)
     end
 
     # List of Guide instances.
@@ -41,8 +41,8 @@ module Guider
     end
 
     # Turns guide configs to actual Guide instances
-    def to_guides(guide_cfgs, tpl)
-      guide_cfgs.find_all {|g| File.exists?(g[:path]) }.map {|g| Guide.new(g, tpl) }
+    def to_guides(guide_cfgs, tpl, inline_tags)
+      guide_cfgs.find_all {|g| File.exists?(g[:path]) }.map {|g| Guide.new(g, tpl, inline_tags) }
     end
 
   end

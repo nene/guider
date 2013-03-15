@@ -1,12 +1,12 @@
 require "kramdown"
 require "fileutils"
-require "guider/inline_tags"
 
 module Guider
   class Guide
-    def initialize(cfg, tpl)
+    def initialize(cfg, tpl, inline_tags)
       @cfg = cfg
       @template = tpl
+      @inline_tags = inline_tags
       @markdown = IO.read(@cfg[:path]+"/README.md")
       @html = Kramdown::Document.new(@markdown).to_html
     end
@@ -19,7 +19,7 @@ module Guider
     end
 
     def write_html(filename)
-      html = InlineTags.new.replace(@html)
+      html = @inline_tags.replace(@html)
       html = @template.apply(:content => html, :title => title)
       File.open(filename, 'w') {|f| f.write(html) }
     end

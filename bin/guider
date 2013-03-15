@@ -10,9 +10,11 @@ require "guider/guide"
 require "guider/config"
 require "guider/template"
 require "guider/index"
+require "guider/inline_tags"
 
 options = {
   :output => Dir.pwd + "/out",
+  :link_url => "http://localhost/extjs/",
 }
 
 input_files = OptionParser.new do |opts|
@@ -21,6 +23,10 @@ input_files = OptionParser.new do |opts|
 
   opts.on("-o", "--output=DIR", "Where to output the guides.") do |dir|
     options[:output] = dir
+  end
+
+  opts.on("--link-url=URL", "Base path for links created by {@link} tags.") do |url|
+    options[:link_url] = url
   end
 
   opts.on("-h", "--help", "Show this help message") do
@@ -40,13 +46,17 @@ Dir[tpl_dir+"/*.{js,css,ico}"].each do |fname|
   FileUtils.cp(fname, options[:output])
 end
 
+# Configure {@link} tags.
+inline_tags = Guider::InlineTags.new
+inline_tags.link_url = options[:link_url]
+
 # Read the template HTML file
 tpl = Guider::Template.new(tpl_dir + "/guide.html")
 
 # The guides.json file
 config_file = input_files[0]
 
-guides = Guider::Config.new(config_file, tpl).guides
+guides = Guider::Config.new(config_file, tpl, inline_tags).guides
 
 guides.each do |guide|
   guide.write(options[:output])
@@ -59,7 +69,3 @@ html = index_tpl.apply({
   :title => "Guides",
   :content => "blah",
 })
-
-
-
-
