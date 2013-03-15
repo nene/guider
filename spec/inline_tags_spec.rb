@@ -3,7 +3,7 @@ require "guider/inline_tags"
 describe Guider::InlineTags do
 
   def replace(str)
-    Guider::InlineTags.replace(str)
+    Guider::InlineTags.new.replace(str)
   end
 
   it "replaces @link to class" do

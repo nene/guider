@@ -1,12 +1,14 @@
 module Guider
   class InlineTags
-    def self.replace(html)
+    def replace(html)
       replace_link!(html)
       replace_img!(html)
       html
     end
 
-    def self.replace_link!(html)
+    private
+
+    def replace_link!(html)
       re = /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?}/
       html.gsub!(re) do |m|
         m =~ re # re-run regex to extract $1 $2 fields
@@ -25,7 +27,7 @@ module Guider
       end
     end
 
-    def self.replace_img!(html)
+    def replace_img!(html)
       re = /\{@img\s+([^\s\}]*)(?:\s+([^\}]*))?}/
       html.gsub!(re) do |m|
         m =~ re # re-run regex to extract $1 $2 fields

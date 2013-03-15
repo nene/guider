@@ -19,7 +19,7 @@ module Guider
     end
 
     def write_html(filename)
-      html = InlineTags.replace(@html)
+      html = InlineTags.new.replace(@html)
       html = @template.apply(:content => html, :title => title)
       File.open(filename, 'w') {|f| f.write(html) }
     end
