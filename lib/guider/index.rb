@@ -1,7 +1,3 @@
-require "kramdown"
-require "fileutils"
-require "guider/inline_tags"
-
 module Guider
   class Index
     def initialize(guides, tpl)
