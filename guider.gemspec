@@ -2,8 +2,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.5"
 
   s.name = 'guider'
-  s.version = '0.0.1'
-  s.date = '2013-03-11'
+  s.version = '0.0.2'
+  s.date = '2013-03-15'
   s.summary = "Sencha guide generator"
   s.description = "JSDuck-compatible guides generator"
   s.homepage = "https://github.com/nene/guider"
