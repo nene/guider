@@ -35,6 +35,11 @@ input_files = OptionParser.new do |opts|
     puts opts
     exit
   end
+
+  opts.on("--version", "Prints guider version number.") do
+    puts "Guider 0.0.3"
+    exit
+  end
 end.parse!
 
 if input_files.length == 1
