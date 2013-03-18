@@ -34,7 +34,7 @@ module Guider
 
     def to_href(guide)
       if guide['url']
-        guide['url'].sub(/^guides\//)
+        guide['url'].sub(/^guides\//, "")
       else
         guide['name']
       end
