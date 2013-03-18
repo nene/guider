@@ -1,24 +1,15 @@
 require "kramdown"
-require "fileutils"
 
 module Guider
   class Guide
-    def initialize(cfg, tpl, inline_tags)
-      @cfg = cfg
+    def initialize(filename, tpl, inline_tags)
       @template = tpl
       @inline_tags = inline_tags
-      @markdown = IO.read(@cfg[:path]+"/README.md")
+      @markdown = IO.read(filename)
       @html = Kramdown::Document.new(@markdown).to_html
     end
 
-    def write(path)
-      guide_path = path + "/" + @cfg[:name]
-      FileUtils.mkdir(guide_path)
-      write_html(guide_path+"/index.html")
-      copy_images(@cfg[:path], guide_path)
-    end
-
-    def write_html(filename)
+    def write(filename)
       html = @inline_tags.replace(@html)
       html = @template.apply(:content => html, :title => title)
       File.open(filename, 'w') {|f| f.write(html) }
@@ -29,17 +20,7 @@ module Guider
       @markdown =~ /\A(.*?)$/
       result = $1.sub(/^#/, '').strip
 
-      # When guide name missing, take it from config file
-      if result == ""
-        @cfg[:title]
-      else
-        result
-      end
-    end
-
-    # Returns the name of a guide, for use in links
-    def name
-      @cfg[:name]
+      return (result == "") ? "Untitled" : result
     end
 
     # Lists all h2 level headings within the guide
@@ -49,14 +30,5 @@ module Guider
       end
     end
 
-    # Copies all files and directories in source dir over to
-    # destination dir.  Skips README.md, which is treated separately.
-    def copy_images(src, dest)
-      Dir[src+"/*"].each do |img|
-        if !["README.md"].include?(File.basename(img))
-          FileUtils.cp_r(img, dest+"/"+File.basename(img))
-        end
-      end
-    end
   end
 end

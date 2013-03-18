@@ -5,27 +5,25 @@ $:.unshift File.dirname(File.dirname(__FILE__)) + "/lib"
 
 require "rubygems"
 require "optparse"
-require "fileutils"
-require "guider/guide"
-require "guider/config"
-require "guider/template"
-require "guider/index"
-require "guider/inline_tags"
+require "guider/app"
 
 options = {
   :output => Dir.pwd + "/out",
   :link_url => "http://localhost/extjs/",
+  :tpl_dir => File.dirname(File.dirname(__FILE__)) + "/template",
 }
 
 input_files = OptionParser.new do |opts|
   opts.banner = "Generates a guide.\n\n" +
-    "Usage: guider <guides.json>\n\n"
+    "Usage: guider <guides/dir/>\n\n"
 
-  opts.on("-o", "--output=DIR", "Where to output the guides.") do |dir|
+  opts.on("-o", "--output=DIR", "Where to output the guides.",
+    "Defaults to ./out") do |dir|
     options[:output] = dir
   end
 
-  opts.on("--link-url=URL", "Base path for links created by {@link} tags.") do |url|
+  opts.on("--link-url=URL", "Base path for links created by {@link} tags.",
+    "Defaults to http://localhost/extjs/") do |url|
     options[:link_url] = url
   end
 
@@ -35,37 +33,12 @@ input_files = OptionParser.new do |opts|
   end
 end.parse!
 
-
-# clean output dir
-FileUtils.rm_rf(options[:output])
-FileUtils.mkdir(options[:output])
-
-# copy over main template resources
-tpl_dir = File.dirname(File.dirname(__FILE__)) + "/template"
-Dir[tpl_dir+"/*.{js,css,ico}"].each do |fname|
-  FileUtils.cp(fname, options[:output])
+if input_files.length == 1
+  options[:input] = input_files[0]
+else
+  $stderr.puts "ERROR: Exactly one input directory must be specified."
+  exit(1)
 end
 
-# Configure {@link} tags.
-inline_tags = Guider::InlineTags.new
-inline_tags.link_url = options[:link_url]
 
-# Read the template HTML file
-tpl = Guider::Template.new(tpl_dir + "/guide.html")
-
-# The guides.json file
-config_file = input_files[0]
-
-guides = Guider::Config.new(config_file, tpl, inline_tags).guides
-
-guides.each do |guide|
-  guide.write(options[:output])
-end
-
-index_tpl = Guider::Template.new(tpl_dir + "/index.html")
-Guider::Index.new(guides, index_tpl).write(options[:output])
-
-html = index_tpl.apply({
-  :title => "Guides",
-  :content => "blah",
-})
+Guider::App.new(options).run
