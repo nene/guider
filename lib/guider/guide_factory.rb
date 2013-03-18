@@ -12,11 +12,14 @@ module Guider
 
       # Create guide rendering template
       @tpl = Guider::Template.new(options[:tpl_dir] + "/guide.html")
+
+      @options = options
     end
 
     # Creates new Guide instance from filename
     def create(filename)
-      Guide.new(filename, @tpl, @inline_tags)
+      Guide.new(filename, @tpl, @inline_tags, @options)
     end
+
   end
 end
