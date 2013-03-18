@@ -1,5 +1,3 @@
-require "json"
-
 module Guider
   # Reads a template from file.
   # Allows replacing {placeholders} inside it.

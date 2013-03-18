@@ -34,9 +34,11 @@ module Guider
     end
 
     # Lists all h2 level headings within the guide
-    def chapters
+    #
+    # XXX: Currently this is dead code.
+    def toc
       @html.scan(/<h2[^>]*id="(\S*)"[^>]*>([^\n]*)<\/h2>/).map do |m|
-        {:href => @cfg[:name] + "#" + m[0], :title => m[1]}
+        {:href => "#" + m[0], :title => m[1]}
       end
     end
 

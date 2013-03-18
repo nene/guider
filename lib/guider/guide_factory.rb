@@ -7,11 +7,11 @@ module Guider
   class GuideFactory
     def initialize(options)
       # Configure {@link} tags.
-      @inline_tags = Guider::InlineTags.new
+      @inline_tags = InlineTags.new
       @inline_tags.link_url = options[:link_url]
 
       # Create guide rendering template
-      @tpl = Guider::Template.new(options[:tpl_dir] + "/guide.html")
+      @tpl = Template.new(options[:tpl_dir] + "/guide.html")
 
       @options = options
     end
