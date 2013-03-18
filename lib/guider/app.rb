@@ -1,5 +1,6 @@
 require "fileutils"
 require "guider/guide_factory"
+require "guider/index"
 
 module Guider
   class App
@@ -15,6 +16,8 @@ module Guider
       copy_dir(@options[:input], @options[:output])
 
       copy_template_files
+
+      Index.new(@options).write if @options[:index]
     end
 
     private

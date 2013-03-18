@@ -27,6 +27,10 @@ input_files = OptionParser.new do |opts|
     options[:link_url] = url
   end
 
+  opts.on("--index=PATH", "The guides.json file to create index.html from.") do |path|
+    options[:index] = path
+  end
+
   opts.on("-h", "--help", "Show this help message") do
     puts opts
     exit

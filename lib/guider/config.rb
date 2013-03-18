@@ -1,48 +1,43 @@
 require "json"
-require "guider/guide"
 
 module Guider
   # Reads the guides config file.
-  # Turns it into list Guide instances accessible through .guides attribute.
+  # Turns it into HTML table of contents.
   class Config
-    def initialize(path, tpl, inline_tags)
-      guide_cfgs = flatten(JSON.parse(IO.read(path)))
-      guide_cfgs.each {|g| keys_to_symbols(g) }
-      guide_cfgs.each {|g| add_path(g, path) }
-      @guides = to_guides(guide_cfgs, tpl, inline_tags)
+    def initialize(path)
+      @guides = flatten(JSON.parse(IO.read(path)))
     end
 
-    # List of Guide instances.
-    attr_reader :guides
+    # Returns flat HTML list of guide titles.
+    def to_html
+      "<ul>" + @guides.map {|g| to_link(g) }.join("\n") + "</ul>"
+    end
 
     private
 
     # Turns grouped guides structure into flat list.
-    def flatten(groups)
+    def flatten(group)
       arr = []
-      groups.each do |group|
-        group["items"].each {|guide| arr << guide }
+      group.each do |guide|
+        if guide["items"]
+          arr += flatten(guide["items"])
+        else
+          arr << guide
+        end
       end
       arr
     end
 
-    # Turns all string keys in Hash into symbols
-    def keys_to_symbols(hash)
-      hash.keys.each do |k|
-        hash[k.to_sym] = hash[k]
-        hash.delete(k)
+    def to_link(guide)
+      "<li><a href='#{to_href(guide)}'>#{guide['title']}</a></li>"
+    end
+
+    def to_href(guide)
+      if guide['url']
+        guide['url'].sub(/^guides\//)
+      else
+        guide['name']
       end
-      hash
-    end
-
-    # adds :path fields to the configs of all the guides
-    def add_path(guide, path)
-      guide[:path] = File.dirname(path) + "/guides/" + guide[:name]
-    end
-
-    # Turns guide configs to actual Guide instances
-    def to_guides(guide_cfgs, tpl, inline_tags)
-      guide_cfgs.find_all {|g| File.exists?(g[:path]) }.map {|g| Guide.new(g, tpl, inline_tags) }
     end
 
   end
