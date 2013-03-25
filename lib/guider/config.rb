@@ -5,31 +5,33 @@ module Guider
   # Turns it into HTML table of contents.
   class Config
     def initialize(path)
-      @guides = flatten(JSON.parse(IO.read(path)))
+      @guides = JSON.parse(IO.read(path))
     end
 
-    # Returns flat HTML list of guide titles.
+    # Returns HTML list of guide titles.
     def to_html
-      "<ul>" + @guides.map {|g| to_link(g) }.join("\n") + "</ul>"
+      to_list(@guides)
     end
 
     private
 
-    # Turns grouped guides structure into flat list.
-    def flatten(group)
-      arr = []
-      group.each do |guide|
+    def to_list(items)
+      puts items.length
+      list = []
+
+      items.each do |guide|
         if guide["items"]
-          arr += flatten(guide["items"])
+          list << "<li>" + guide["title"] + "\n" + to_list(guide["items"]) + "</li>"
         else
-          arr << guide
+          list << "<li>#{to_link(guide)}</li>"
         end
       end
-      arr
+
+      "<ul>" + list.join("\n") + "</ul>"
     end
 
     def to_link(guide)
-      "<li><a href='#{to_href(guide)}'>#{guide['title']}</a></li>"
+      "<a href='#{to_href(guide)}'>#{guide['title']}</a>"
     end
 
     def to_href(guide)
