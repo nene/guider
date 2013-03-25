@@ -42,7 +42,7 @@ input_files = OptionParser.new do |opts|
   end
 
   opts.on("--version", "Prints guider version number.") do
-    puts "Guider 0.0.4"
+    puts "Guider 0.0.5"
     exit
   end
 end.parse!
