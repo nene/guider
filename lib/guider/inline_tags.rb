@@ -10,6 +10,7 @@ module Guider
     def replace(html)
       replace_link!(html)
       replace_img!(html)
+      replace_old_guide_links!(html)
       html
     end
 
@@ -41,6 +42,15 @@ module Guider
         ref = $1
         alt = $2
         "<img src='#{ref}' alt='#{alt}'>"
+      end
+    end
+
+    def replace_old_guide_links!(html)
+      re = /<a href="#!?\/guide\/(\w+)">/
+      html.gsub!(re) do |m|
+        m =~ re # re-run regex to extract guide name
+        name = $1
+        "<a href='../#{name}'>"
       end
     end
 
