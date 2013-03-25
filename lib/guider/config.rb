@@ -16,7 +16,6 @@ module Guider
     private
 
     def to_list(items)
-      puts items.length
       list = []
 
       items.each do |guide|
