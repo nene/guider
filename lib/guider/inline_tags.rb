@@ -17,12 +17,7 @@ module Guider
     private
 
     def replace_link!(html)
-      re = /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?}/
-      html.gsub!(re) do |m|
-        m =~ re # re-run regex to extract $1 $2 fields
-        ref = $1
-        alt = $2
-
+      replace!(html, /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?}/) do |ref, alt|
         cls, mref = ref.split('#')
         if mref
           apiref = [cls, "method", mref].join("-")
@@ -36,21 +31,26 @@ module Guider
     end
 
     def replace_img!(html)
-      re = /\{@img\s+([^\s\}]*)(?:\s+([^\}]*))?}/
-      html.gsub!(re) do |m|
-        m =~ re # re-run regex to extract $1 $2 fields
-        ref = $1
-        alt = $2
+      replace!(html, /\{@img\s+([^\s\}]*)(?:\s+([^\}]*))?}/) do |ref, alt|
         "<img src='#{ref}' alt='#{alt}'>"
       end
     end
 
     def replace_old_guide_links!(html)
-      re = /<a href="#!?\/guide\/(\w+)">/
-      html.gsub!(re) do |m|
-        m =~ re # re-run regex to extract guide name
-        name = $1
+      replace!(html, /<a href="#!?\/guide\/(\w+)">/) do |name|
         "<a href='../#{name}'>"
+      end
+    end
+
+    # Helper method to easily do a regex-replace with a block where
+    # the block gets called with a list of all the captured strings.
+    # The normal String#gsub! method only passes the full match to the
+    # block, so we have to do some tedious extra work to extract the
+    # actual captures.
+    def replace!(string, re, &block)
+      string.gsub!(re) do |m|
+        captures = re.match(m)[1..-1]
+        block.call(*captures)
       end
     end
 
