@@ -25,4 +25,8 @@ describe Guider::InlineTags do
   it "replaces @link to static property" do
     replace("{@link Foo#static-property-bar}").should == "<a href='#!/api/Foo-static-property-bar'>Foo.bar</a>"
   end
+
+  it "replaces @link to ambigous member with link to method" do
+    replace("{@link Foo#bar}").should == "<a href='#!/api/Foo-method-bar'>Foo.bar</a>"
+  end
 end

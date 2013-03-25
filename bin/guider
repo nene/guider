@@ -11,6 +11,7 @@ options = {
   :output => Dir.pwd + "/out",
   :link_url => "http://localhost/extjs/",
   :tpl_dir => File.dirname(File.dirname(__FILE__)) + "/template",
+  :warnings => false,
 }
 
 input_files = OptionParser.new do |opts|
@@ -29,6 +30,10 @@ input_files = OptionParser.new do |opts|
 
   opts.on("--index=PATH", "The guides.json file to create index.html from.") do |path|
     options[:index] = path
+  end
+
+  opts.on("--warnings", "Enables warnings.") do
+    options[:warnings] = true
   end
 
   opts.on("-h", "--help", "Show this help message") do

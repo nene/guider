@@ -1,12 +1,14 @@
 require "fileutils"
 require "guider/guide_factory"
 require "guider/index"
+require "guider/logger"
 
 module Guider
   class App
     def initialize(options)
       @options = options
       @guide_factory = Guider::GuideFactory.new(@options)
+      Logger.warnings = options[:warnings]
     end
 
     def run

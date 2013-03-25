@@ -1,3 +1,5 @@
+require 'guider/logger'
+
 module Guider
   class InlineTags
     # The base URL for links created by {@link} tags.
@@ -20,8 +22,16 @@ module Guider
       replace!(html, /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?}/) do |ref, alt|
         cls, mref = ref.split(/#/)
         if mref
+          parts = mref.split(/-/)
+
+          if parts.length < 2
+            Logger.warn("Ambiguous member reference: #{cls}##{mref}")
+            # Default unqualified member references to method
+            mref = "method-" + mref
+          end
+
           api_ref = [cls, mref].join("-")
-          api_alt = [cls, mref.split(/-/).last].join(".")
+          api_alt = [cls, parts.last].join(".")
         else
           api_ref = cls
           api_alt = cls

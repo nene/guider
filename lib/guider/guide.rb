@@ -1,17 +1,20 @@
 require "kramdown"
 require "pathname"
+require "guider/logger"
 
 module Guider
   class Guide
     def initialize(filename, tpl, inline_tags, options)
       @template = tpl
       @inline_tags = inline_tags
+      @input_filename = filename
       @markdown = IO.read(filename)
       @rel_path = relative_path(options[:input], filename)
       @html = Kramdown::Document.new(@markdown).to_html
     end
 
     def write(filename)
+      Logger.context = @input_filename
       html = @inline_tags.replace(@html)
       html = @template.apply({
           :content => html,
