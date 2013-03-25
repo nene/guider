@@ -18,15 +18,17 @@ module Guider
 
     def replace_link!(html)
       replace!(html, /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?}/) do |ref, alt|
-        cls, mref = ref.split('#')
+        cls, mref = ref.split(/#/)
         if mref
-          apiref = [cls, "method", mref].join("-")
+          api_ref = [cls, mref].join("-")
+          api_alt = [cls, mref.split(/-/).last].join(".")
         else
-          apiref = cls
+          api_ref = cls
+          api_alt = cls
         end
 
-        url = @link_url + "#!/api/" + apiref
-        "<a href='#{url}'>#{alt || ref}</a>"
+        url = @link_url + "#!/api/" + api_ref
+        "<a href='#{url}'>#{alt || api_alt}</a>"
       end
     end
 
