@@ -36,7 +36,6 @@ end
 
 desc "Build Guider gem"
 task :gem do
-  compress
   system "gem build guider.gemspec"
 end
 
