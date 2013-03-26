@@ -8,6 +8,7 @@ module Guider
       @template = tpl
       @inline_tags = inline_tags
       @input_filename = filename
+      @options = options
       @markdown = IO.read(filename)
       @rel_path = relative_path(options[:input], filename)
       @html = Kramdown::Document.new(@markdown).to_html
@@ -19,7 +20,8 @@ module Guider
       html = @inline_tags.replace(@html)
       html = @template.apply({
           :content => html,
-          :title => title,
+          :title => @options[:title],
+          :guide_name => guide_name,
           :path => @rel_path,
         })
       File.open(filename, 'w') {|f| f.write(html) }
@@ -30,7 +32,7 @@ module Guider
     end
 
     # Extracts the first line from markdown
-    def title
+    def guide_name
       @markdown =~ /\A(.*?)$/
       result = $1.sub(/^#/, '').strip
 

@@ -20,7 +20,7 @@ module Guider
 
       items.each do |guide|
         if guide["items"]
-          list << "<li>" + guide["title"] + "\n" + to_list(guide["items"]) + "</li>"
+          list << "<li><span>" + guide["title"] + "</span>\n" + to_list(guide["items"]) + "</li>"
         else
           list << "<li>#{to_link(guide)}</li>"
         end

@@ -4,8 +4,8 @@ body {
     line-height: 1.231;
     color: #484848;
     background: #f8f8f8;
-    max-width: 900px;
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -39,10 +39,36 @@ img {
     margin: 0 auto;
 }
 
+/* Page header and content sections */
+
+#header {
+    background: #074E7C url(sencha-logo.png) 5px center no-repeat;
+    padding-left: 30px;
+}
+#header h1 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 40px;
+}
+#header a {
+    color: white;
+}
+
+#content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
 
 /* Special styles for guides list in index page */
 
-body#index-page > ul > li {margin-bottom: 0.5em;}
-body#index-page > ul > li > ul {margin: 0.5em 0; font-size: smaller;}
-body#index-page > ul > li > a:link {font-weight: bold; }
+body#index-page > #content > ul > li {margin-bottom: 0.5em; }
+body#index-page > #content > ul > li > ul {margin: 0.5em 0; font-size: smaller; }
+body#index-page > #content > ul > li > a:link {font-weight: bold; }
 
+body#index-page > #content > ul > li > span {
+    color: #66ab16;
+    font-family: "Exo", sans-serif;
+    font-weight: bold;
+}

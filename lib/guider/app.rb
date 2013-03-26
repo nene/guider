@@ -46,7 +46,7 @@ module Guider
 
     # Copies over main template resources
     def copy_template_files
-      Dir[@options[:tpl_dir]+"/*.{js,css,ico}"].each do |fname|
+      Dir[@options[:tpl_dir]+"/*.{js,css,ico,png}"].each do |fname|
         FileUtils.cp(fname, @options[:output])
       end
     end

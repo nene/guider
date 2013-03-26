@@ -9,6 +9,7 @@ require "guider/app"
 
 options = {
   :output => Dir.pwd + "/out",
+  :title => "Guides",
   :link_url => "http://localhost/extjs/",
   :tpl_dir => File.dirname(File.dirname(__FILE__)) + "/template",
   :warnings => false,
@@ -21,6 +22,10 @@ input_files = OptionParser.new do |opts|
   opts.on("-o", "--output=DIR", "Where to output the guides.",
     "Defaults to ./out") do |dir|
     options[:output] = File.absolute_path(dir)
+  end
+
+  opts.on("--title=NAME", "The title for the whole set of guides.") do |title|
+    options[:title] = title
   end
 
   opts.on("--link-url=URL", "Base path for links created by {@link} tags.",
