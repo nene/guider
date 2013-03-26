@@ -53,6 +53,10 @@ module Guider
 
     def replace_old_guide_links!(html)
       replace!(html, /<a href="#!?\/guide\/([^"]+)">/) do |name|
+        # Transform links to .md files into .html file links
+        name.sub!(/README\.md$/, "index.html")
+        name.sub!(/\.md$/, ".html")
+
         "<a href='#{@base_url}/#{name}'>"
       end
     end
