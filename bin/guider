@@ -7,7 +7,7 @@ require "rubygems"
 require "optparse"
 require "guider/app"
 
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 
 def format_footer(text)
   guider = "<a href='https://github.com/nene/guider'>Guider</a>"
