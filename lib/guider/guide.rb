@@ -21,6 +21,7 @@ module Guider
       html = @template.apply({
           :content => html,
           :title => @options[:title],
+          :footer => @options[:footer],
           :guide_name => guide_name,
           :path => @rel_path,
         })

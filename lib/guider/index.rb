@@ -10,7 +10,11 @@ module Guider
     end
 
     def write
-      html = @tpl.apply(:title => @options[:title], :content => @config.to_html)
+      html = @tpl.apply({
+        :title => @options[:title],
+        :footer => @options[:footer],
+        :content => @config.to_html,
+      })
       File.open(@options[:output] + "/index.html", 'w') {|f| f.write(html) }
     end
 
