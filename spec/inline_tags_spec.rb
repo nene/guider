@@ -29,4 +29,16 @@ describe Guider::InlineTags do
   it "replaces @link to ambigous member with link to method" do
     replace("{@link Foo#bar}").should == "<a href='#!/api/Foo-method-bar'>Foo.bar</a>"
   end
+
+  it "replaces JSDuck-style guide link" do
+    replace('<a href="#!/guide/blah">blah</a>').should == "<a href='./blah'>blah</a>"
+  end
+
+  it "replaces JSDuck-style guide link without !-bang" do
+    replace('<a href="#/guide/blah">blah</a>').should == "<a href='./blah'>blah</a>"
+  end
+
+  it "replaces JSDuck-style guide link with multiple dirs" do
+    replace('<a href="#!/guide/foo/bar/baz">blah</a>').should == "<a href='./foo/bar/baz'>blah</a>"
+  end
 end

@@ -4,9 +4,12 @@ module Guider
   class InlineTags
     # The base URL for links created by {@link} tags.
     attr_accessor :link_url
+    # The base URL for referencing guides from root dir.
+    attr_accessor :base_url
 
     def initialize
       @link_url = ""
+      @base_url = "."
     end
 
     def replace(html)
@@ -49,8 +52,8 @@ module Guider
     end
 
     def replace_old_guide_links!(html)
-      replace!(html, /<a href="#!?\/guide\/(\w+)">/) do |name|
-        "<a href='../#{name}'>"
+      replace!(html, /<a href="#!?\/guide\/([^"]+)">/) do |name|
+        "<a href='#{@base_url}/#{name}'>"
       end
     end
 

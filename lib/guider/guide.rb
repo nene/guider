@@ -15,6 +15,7 @@ module Guider
 
     def write(filename)
       Logger.context = @input_filename
+      @inline_tags.base_url = @rel_path
       html = @inline_tags.replace(@html)
       html = @template.apply({
           :content => html,
