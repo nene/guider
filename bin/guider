@@ -7,12 +7,12 @@ require "rubygems"
 require "optparse"
 require "guider/app"
 
-VERSION = '0.0.6'
+GUIDER_VERSION = '0.0.6'
 
 def format_footer(text)
   guider = "<a href='https://github.com/nene/guider'>Guider</a>"
   date = Time.new.strftime('%a %d %b %Y %H:%M:%S')
-  text.gsub(/\{VERSION\}/, VERSION).gsub(/\{GUIDER\}/, guider).gsub(/\{DATE\}/, date)
+  text.gsub(/\{VERSION\}/, GUIDER_VERSION).gsub(/\{GUIDER\}/, guider).gsub(/\{DATE\}/, date)
 end
 
 options = {
@@ -62,7 +62,7 @@ input_files = OptionParser.new do |opts|
   end
 
   opts.on("--version", "Prints guider version number.") do
-    puts "Guider #{VERSION}"
+    puts "Guider #{GUIDER_VERSION}"
     exit
   end
 end.parse!

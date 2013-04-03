@@ -25,7 +25,7 @@ task :bump do
 
   # Replace it in bin/guider
   contents = IO.read("bin/guider")
-  contents.sub!(/VERSION = '#{old_version}'/, "VERSION = '#{new_version}'")
+  contents.sub!(/GUIDER_VERSION = '#{old_version}'/, "GUIDER_VERSION = '#{new_version}'")
   File.open("bin/guider", "w") {|f| f.write(contents) }
 
   # Create a commit
