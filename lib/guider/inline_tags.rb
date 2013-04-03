@@ -22,7 +22,7 @@ module Guider
     private
 
     def replace_link!(html)
-      replace!(html, /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?}/) do |ref, alt|
+      replace!(html, /\{@link\s+([^\s\}]*)(?:\s+([^\}]*))?\}/) do |ref, alt|
         cls, mref = ref.split(/#/)
         if mref
           parts = mref.split(/-/)
@@ -46,7 +46,7 @@ module Guider
     end
 
     def replace_img!(html)
-      replace!(html, /\{@img\s+([^\s\}]*)(?:\s+([^\}]*))?}/) do |ref, alt|
+      replace!(html, /\{@img\s+([^\s\}]*)(?:\s+([^\}]*))?\}/) do |ref, alt|
         "<img src='#{ref}' alt='#{alt}'>"
       end
     end

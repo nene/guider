@@ -30,7 +30,7 @@ input_files = OptionParser.new do |opts|
 
   opts.on("-o", "--output=DIR", "Where to output the guides.",
     "Defaults to ./out") do |dir|
-    options[:output] = File.absolute_path(dir)
+    options[:output] = File.expand_path(dir)
   end
 
   opts.on("--title=TEXT", "The title for the whole set of guides.",
@@ -68,7 +68,7 @@ input_files = OptionParser.new do |opts|
 end.parse!
 
 if input_files.length == 1
-  options[:input] = File.absolute_path(input_files[0])
+  options[:input] = File.expand_path(input_files[0])
 else
   $stderr.puts "ERROR: Exactly one input directory must be specified."
   exit(1)
