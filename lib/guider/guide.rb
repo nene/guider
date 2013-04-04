@@ -3,6 +3,7 @@ require "pathname"
 require "guider/logger"
 require "guider/social"
 require "guider/search"
+require "guider/analytics"
 
 module Guider
   class Guide
@@ -28,6 +29,7 @@ module Guider
           :path => @rel_path,
           :social => Social.to_html(@options[:social]),
           :search => Search.to_html(@options[:search]),
+          :analytics => Search.to_html(@options[:analytics]),
         })
       File.open(filename, 'w') {|f| f.write(html) }
     end

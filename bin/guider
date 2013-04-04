@@ -25,6 +25,7 @@ options = {
   :warnings => false,
   :social => [],
   :search => nil,
+  :analytics => nil,
 }
 
 input_files = OptionParser.new do |opts|
@@ -67,6 +68,10 @@ input_files = OptionParser.new do |opts|
 
   opts.on("--search=id", "ID of custom google search engine.") do |id|
     options[:search] = id
+  end
+
+  opts.on("--analytics=id", "ID for Google Analytics tracking.") do |id|
+    options[:analytics] = id
   end
 
   opts.on("--warnings", "Enables warnings.") do
