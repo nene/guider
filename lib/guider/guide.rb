@@ -4,6 +4,8 @@ require "guider/logger"
 require "guider/social"
 require "guider/search"
 require "guider/analytics"
+require "guider/prettify"
+require "guider/font"
 
 module Guider
   class Guide
@@ -30,6 +32,8 @@ module Guider
           :social => Social.to_html(@options[:social]),
           :search => Search.to_html(@options[:search]),
           :analytics => Search.to_html(@options[:analytics]),
+          :prettify => Prettify.to_html,
+          :font => Font.to_html,
         })
       File.open(filename, 'w') {|f| f.write(html) }
     end
