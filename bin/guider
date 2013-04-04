@@ -6,6 +6,7 @@ $:.unshift File.dirname(File.dirname(__FILE__)) + "/lib"
 require "rubygems"
 require "optparse"
 require "guider/app"
+require "guider/social"
 
 GUIDER_VERSION = '0.0.7'
 
@@ -22,6 +23,7 @@ options = {
   :link_url => "http://localhost/extjs/",
   :tpl_dir => File.dirname(File.dirname(__FILE__)) + "/template",
   :warnings => false,
+  :social => [],
 }
 
 input_files = OptionParser.new do |opts|
@@ -50,6 +52,16 @@ input_files = OptionParser.new do |opts|
 
   opts.on("--index=PATH", "The guides.json file to create index.html from.") do |path|
     options[:index] = path
+  end
+
+  opts.on("--social=google,twitter,facebook", Array, "Buttons to add to the page.") do |social|
+    social = social.map {|t| t.to_sym }
+    unsupported = social.find_all {|t| !Guider::Social.supported_types.include?(t) }
+    if unsupported.length > 0
+      $stderr.puts "ERROR: Unsupported social button type: " + unsupported.join(" ")
+      exit(1)
+    end
+    options[:social] = social
   end
 
   opts.on("--warnings", "Enables warnings.") do
