@@ -54,6 +54,13 @@ img {
     color: white;
 }
 
+#header .google-search {
+    position: absolute;
+    top: 3px;
+    right: 20px;
+    width: 250px;
+}
+
 #content {
     max-width: 900px;
     margin: 0 auto;

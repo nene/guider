@@ -1,5 +1,6 @@
 require 'guider/template'
 require 'guider/config'
+require 'guider/search'
 
 module Guider
   class Index
@@ -14,6 +15,7 @@ module Guider
         :title => @options[:title],
         :footer => @options[:footer],
         :content => @config.to_html,
+        :search => Search.to_html(@options[:search]),
       })
       File.open(@options[:output] + "/index.html", 'w') {|f| f.write(html) }
     end

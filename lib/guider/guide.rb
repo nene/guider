@@ -2,6 +2,7 @@ require "kramdown"
 require "pathname"
 require "guider/logger"
 require "guider/social"
+require "guider/search"
 
 module Guider
   class Guide
@@ -26,6 +27,7 @@ module Guider
           :guide_name => guide_name,
           :path => @rel_path,
           :social => Social.to_html(@options[:social]),
+          :search => Search.to_html(@options[:search]),
         })
       File.open(filename, 'w') {|f| f.write(html) }
     end

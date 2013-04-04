@@ -24,6 +24,7 @@ options = {
   :tpl_dir => File.dirname(File.dirname(__FILE__)) + "/template",
   :warnings => false,
   :social => [],
+  :search => nil,
 }
 
 input_files = OptionParser.new do |opts|
@@ -62,6 +63,10 @@ input_files = OptionParser.new do |opts|
       exit(1)
     end
     options[:social] = social
+  end
+
+  opts.on("--search=id", "ID of custom google search engine.") do |id|
+    options[:search] = id
   end
 
   opts.on("--warnings", "Enables warnings.") do
