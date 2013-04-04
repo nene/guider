@@ -1,11 +1,6 @@
 require "kramdown"
 require "pathname"
 require "guider/logger"
-require "guider/social"
-require "guider/search"
-require "guider/analytics"
-require "guider/prettify"
-require "guider/font"
 
 module Guider
   class Guide
@@ -25,15 +20,8 @@ module Guider
       html = @inline_tags.replace(@html)
       html = @template.apply({
           :content => html,
-          :title => @options[:title],
-          :footer => @options[:footer],
           :guide_name => guide_name,
           :path => @rel_path,
-          :social => Social.to_html(@options[:social]),
-          :search => Search.to_html(@options[:search]),
-          :analytics => Search.to_html(@options[:analytics]),
-          :prettify => Prettify.to_html,
-          :font => Font.to_html,
         })
       File.open(filename, 'w') {|f| f.write(html) }
     end

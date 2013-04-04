@@ -1,4 +1,4 @@
-require "guider/template"
+require "guider/default_template"
 require "guider/inline_tags"
 require "guider/guide"
 
@@ -11,7 +11,7 @@ module Guider
       @inline_tags.link_url = options[:link_url]
 
       # Create guide rendering template
-      @tpl = Template.new(options[:tpl_dir] + "/guide.html")
+      @tpl = DefaultTemplate.new(options[:tpl_dir] + "/guide.html", options)
 
       @options = options
     end
