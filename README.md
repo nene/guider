@@ -29,6 +29,7 @@ To generate guides index page from the `guides.json` file use the
 
     guider /path/to/guides --index=/path/to/guides.json
 
+See `--help` for all other command line options.
 
 ## License
 
