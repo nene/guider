@@ -13,7 +13,7 @@ module Guider
       super(path, {
         :title => options[:title],
         :footer => options[:footer],
-        :search => Social.to_html(options[:social]),
+        :social => Social.to_html(options[:social]),
         :search => Search.to_html(options[:search]),
         :analytics => Analytics.to_html(options[:analytics]),
         :prettify => Prettify.to_html,
